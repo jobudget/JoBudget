@@ -1,130 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Expenses - JoBudget</title>
-<style>
-    /* =========================
-       MOBILE HAMBURGER
-    ========================= */
 
-    .jb-mobile-menu {
-        display: none;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        width: 45px;
-        height: 45px;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        border-radius: 10px;
-        background: #7aa35a;
-        color: white;
-        font-size: 23px;
-        cursor: pointer;
-        z-index: 3000;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .jb-sidebar-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        z-index: 1999;
-    }
-
-    @media (max-width: 900px) {
-
-        .jb-sidebar {
-            position: fixed;
-            top: 0;
-            left: -270px;
-            width: 250px;
-            height: 100vh;
-            z-index: 2000;
-            transition: left 0.25s ease;
-            overflow-y: auto;
-        }
-
-        .jb-sidebar.mobile-open {
-            left: 0;
-        }
-
-        .jb-mobile-menu {
-            display: flex;
-        }
-
-        .jb-sidebar-overlay.mobile-open {
-            display: block;
-        }
-
-        .jb-main {
-            margin-left: 0 !important;
-            width: 100%;
-            padding: 80px 20px 30px;
-        }
-
-        .jb-content-grid {
-            grid-template-columns: 1fr !important;
-        }
-    }
-
-    @media (max-width: 600px) {
-
-        .jb-main {
-            padding: 75px 15px 25px;
-        }
-
-        .jb-mobile-menu {
-            width: 42px;
-            height: 42px;
-            top: 12px;
-            left: 12px;
-        }
-
-        .jb-welcome h1 {
-            font-size: 24px;
-            line-height: 1.3;
-        }
-
-        .jb-welcome p {
-            font-size: 13px;
-        }
-
-        .jb-card {
-            width: 100%;
-        }
-
-        .jb-form-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .jb-form-buttons .jb-btn {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 400px) {
-
-        .jb-main {
-            padding: 70px 10px 20px;
-        }
-
-        .jb-mobile-menu {
-            width: 40px;
-            height: 40px;
-            top: 10px;
-            left: 10px;
-        }
-    }
-</style>
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -163,7 +48,9 @@
             left: 0;
             top: 0;
             bottom: 0;
-            z-index: 10;
+            z-index: 2000;
+            transition: left 0.25s ease;
+            overflow-y: auto;
         }
 
         .jb-logo {
@@ -182,6 +69,7 @@
             align-items: center;
             justify-content: center;
             font-size: 27px;
+            flex-shrink: 0;
         }
 
         .jb-logo-title {
@@ -228,6 +116,42 @@
             width: 24px;
             text-align: center;
             font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* =========================
+           MOBILE HAMBURGER
+        ========================= */
+
+        .jb-mobile-menu {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 45px;
+            height: 45px;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 10px;
+            background: #7aa35a;
+            color: #ffffff;
+            font-size: 23px;
+            cursor: pointer;
+            z-index: 3000;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .jb-mobile-menu:hover {
+            background: #668b49;
+        }
+
+        .jb-sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1999;
         }
 
         /* =========================
@@ -600,7 +524,7 @@
         }
 
         /* =========================
-           RESPONSIVE
+           TABLET
         ========================= */
 
         @media (max-width: 1000px) {
@@ -618,59 +542,156 @@
             }
         }
 
-        @media (max-width: 750px) {
+        /* =========================
+           MOBILE / TABLET SIDEBAR
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .jb-mobile-menu {
+                display: flex;
+            }
 
             .jb-sidebar {
-                width: 70px;
-                padding: 15px 8px;
+                position: fixed;
+                top: 0;
+                left: -270px;
+                width: 250px;
+                height: 100vh;
+                min-height: 100vh;
+                padding: 24px 16px;
+                z-index: 2000;
+                transition: left 0.25s ease;
+                overflow-y: auto;
             }
 
-            .jb-logo {
-                justify-content: center;
-                padding: 5px 0 20px;
+            .jb-sidebar.mobile-open {
+                left: 0;
             }
 
-            .jb-logo > div:last-child {
-                display: none;
-            }
-
-            .jb-logo-icon {
-                width: 45px;
-                height: 45px;
-            }
-
-            .jb-nav a {
-                justify-content: center;
-                padding: 12px 5px;
-            }
-
-            .jb-nav a span:last-child {
-                display: none;
+            .jb-sidebar-overlay.mobile-open {
+                display: block;
             }
 
             .jb-main {
-                margin-left: 70px;
-                width: calc(100% - 70px);
+                margin-left: 0 !important;
+                width: 100% !important;
+                min-height: 100vh;
+                padding: 80px 20px 30px;
             }
 
             .expense-content {
-                padding: 20px 15px;
+                padding: 20px;
+            }
+
+            .jb-logo {
+                justify-content: flex-start;
+                padding: 5px 10px 28px;
+            }
+
+            .jb-logo > div:last-child {
+                display: block;
+            }
+
+            .jb-nav a {
+                justify-content: flex-start;
+                padding: 12px 14px;
+            }
+
+            .jb-nav a span:last-child {
+                display: inline;
+            }
+        }
+
+        /* =========================
+           SMALL MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .jb-main {
+                padding: 75px 15px 25px;
+            }
+
+            .expense-content {
+                padding: 15px 0;
+            }
+
+            .jb-mobile-menu {
+                width: 42px;
+                height: 42px;
+                top: 12px;
+                left: 12px;
             }
 
             .expense-header h1 {
-                font-size: 26px;
+                font-size: 24px;
+                line-height: 1.3;
+            }
+
+            .expense-header p {
+                font-size: 13px;
+            }
+
+            .expense-card {
+                padding: 18px;
+                border-radius: 15px;
+            }
+
+            .summary-box {
+                padding: 18px;
+            }
+
+            .summary-value {
+                font-size: 22px;
             }
 
             .deduct-options {
                 grid-template-columns: 1fr;
             }
+
+            .btn-add {
+                width: 100%;
+            }
+
+            .expense-table-wrapper {
+                margin-left: -5px;
+                width: calc(100% + 10px);
+            }
         }
+
+        /* =========================
+           VERY SMALL MOBILE
+        ========================= */
+
+        @media (max-width: 400px) {
+
+            .jb-main {
+                padding: 70px 10px 20px;
+            }
+
+            .jb-mobile-menu {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                left: 10px;
+            }
+
+            .expense-card {
+                padding: 15px;
+            }
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<!-- MOBILE HAMBURGER -->
+<!-- =========================
+     MOBILE HAMBURGER
+========================= -->
+
 <button
     type="button"
     id="mobileMenuToggle"
@@ -680,8 +701,15 @@
     ☰
 </button>
 
-<!-- MOBILE OVERLAY -->
-<div id="mobileSidebarOverlay" class="jb-sidebar-overlay"></div>
+<!-- =========================
+     MOBILE OVERLAY
+========================= -->
+
+<div
+    id="mobileSidebarOverlay"
+    class="jb-sidebar-overlay"
+></div>
+
 
 <div class="jb-layout">
 
@@ -698,6 +726,7 @@
             </div>
 
             <div>
+
                 <div class="jb-logo-title">
                     JoBudget
                 </div>
@@ -705,9 +734,11 @@
                 <div class="jb-logo-subtitle">
                     Smart Money Tracker
                 </div>
+
             </div>
 
         </div>
+
 
         <nav class="jb-nav">
 
@@ -737,7 +768,10 @@
             </a>
 
 
-            <a href="{{ route('expense.index') }}" class="active">
+            <a
+                href="{{ route('expense.index') }}"
+                class="active"
+            >
 
                 <span class="jb-nav-icon">
                     💸
@@ -763,10 +797,17 @@
             </a>
 
 
-          
+            <a href="{{ route('goal.index') }}">
 
+                <span class="jb-nav-icon">
+                    🎯
+                </span>
 
-           
+                <span>
+                    Goals
+                </span>
+
+            </a>
 
         </nav>
 
@@ -902,6 +943,7 @@
                 >
 
                     @csrf
+
 
                     <div class="expense-form">
 
@@ -1165,9 +1207,7 @@
                                         <td>
 
                                             <span class="category-badge">
-
                                                 {{ $expense->category->name ?? 'Miscellaneous' }}
-
                                             </span>
 
                                         </td>
@@ -1176,9 +1216,7 @@
                                         <!-- AMOUNT -->
 
                                         <td>
-
                                             ₱{{ number_format($expense->amount, 2) }}
-
                                         </td>
 
 
@@ -1206,9 +1244,7 @@
                                         <!-- DATE -->
 
                                         <td>
-
                                             {{ $expense->expense_date->format('M d, Y') }}
-
                                         </td>
 
 
@@ -1250,7 +1286,14 @@
     </main>
 
 </div>
+
+
+<!-- =========================
+     MOBILE SIDEBAR SCRIPT
+========================= -->
+
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const menuButton =
@@ -1262,13 +1305,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const overlay =
         document.getElementById('mobileSidebarOverlay');
 
+
     if (!menuButton || !sidebar || !overlay) {
         return;
     }
 
+
     function openSidebar() {
 
         sidebar.classList.add('mobile-open');
+
         overlay.classList.add('mobile-open');
 
         menuButton.textContent = '✕';
@@ -1277,11 +1323,14 @@ document.addEventListener('DOMContentLoaded', function () {
             'aria-label',
             'Close navigation menu'
         );
+
     }
+
 
     function closeSidebar() {
 
         sidebar.classList.remove('mobile-open');
+
         overlay.classList.remove('mobile-open');
 
         menuButton.textContent = '☰';
@@ -1290,33 +1339,52 @@ document.addEventListener('DOMContentLoaded', function () {
             'aria-label',
             'Open navigation menu'
         );
+
     }
 
-    menuButton.addEventListener('click', function () {
 
-        if (sidebar.classList.contains('mobile-open')) {
-            closeSidebar();
-        } else {
-            openSidebar();
+    menuButton.addEventListener(
+        'click',
+        function () {
+
+            if (
+                sidebar.classList.contains(
+                    'mobile-open'
+                )
+            ) {
+
+                closeSidebar();
+
+            } else {
+
+                openSidebar();
+
+            }
+
         }
+    );
 
-    });
 
     overlay.addEventListener(
         'click',
         closeSidebar
     );
 
-    sidebar.querySelectorAll('.jb-nav a').forEach(function (link) {
 
-        link.addEventListener(
-            'click',
-            closeSidebar
-        );
+    sidebar
+        .querySelectorAll('.jb-nav a')
+        .forEach(function (link) {
 
-    });
+            link.addEventListener(
+                'click',
+                closeSidebar
+            );
+
+        });
 
 });
+
 </script>
+
 </body>
 </html>

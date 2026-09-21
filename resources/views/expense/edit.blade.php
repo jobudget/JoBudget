@@ -1,13 +1,16 @@
-```blade
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Edit Expense - JoBudget</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -23,6 +26,7 @@
             text-decoration: none;
         }
 
+
         /* =========================
            LAYOUT
         ========================= */
@@ -31,6 +35,7 @@
             display: flex;
             min-height: 100vh;
         }
+
 
         /* =========================
            SIDEBAR
@@ -42,12 +47,17 @@
             background: #ffffff;
             border-right: 1px solid #e5e7eb;
             padding: 24px 16px;
+
             position: fixed;
             left: 0;
             top: 0;
             bottom: 0;
-            z-index: 10;
+
+            z-index: 2000;
+
+            transition: left 0.25s ease;
         }
+
 
         .jb-logo {
             display: flex;
@@ -56,16 +66,21 @@
             padding: 5px 10px 28px;
         }
 
+
         .jb-logo-icon {
             width: 48px;
             height: 48px;
             background: #dcfce7;
             border-radius: 14px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-size: 27px;
+            flex-shrink: 0;
         }
+
 
         .jb-logo-title {
             font-size: 20px;
@@ -73,11 +88,13 @@
             color: #166534;
         }
 
+
         .jb-logo-subtitle {
             font-size: 11px;
             color: #9ca3af;
             margin-top: 2px;
         }
+
 
         .jb-nav {
             display: flex;
@@ -85,33 +102,105 @@
             gap: 6px;
         }
 
+
         .jb-nav a {
             display: flex;
             align-items: center;
             gap: 13px;
+
             padding: 12px 14px;
+
             border-radius: 12px;
+
             color: #4b5563;
+
             font-size: 14px;
             font-weight: 700;
+
             transition: 0.2s ease;
         }
+
 
         .jb-nav a:hover {
             background: #f0fdf4;
             color: #166534;
         }
 
+
         .jb-nav a.active {
             background: #dcfce7;
             color: #166534;
         }
 
+
         .jb-nav-icon {
             width: 24px;
             text-align: center;
             font-size: 18px;
+            flex-shrink: 0;
         }
+
+
+        /* =========================
+           HAMBURGER
+        ========================= */
+
+        .jb-mobile-menu {
+            display: none;
+
+            position: fixed;
+
+            top: 15px;
+            left: 15px;
+
+            width: 45px;
+            height: 45px;
+
+            align-items: center;
+            justify-content: center;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #7aa35a;
+            color: #ffffff;
+
+            font-size: 24px;
+
+            cursor: pointer;
+
+            z-index: 3000;
+
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .jb-mobile-menu:hover {
+            background: #668b49;
+        }
+
+
+        /* =========================
+           SIDEBAR OVERLAY
+        ========================= */
+
+        .jb-sidebar-overlay {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.4);
+
+            z-index: 1999;
+        }
+
+
+        .jb-sidebar-overlay.mobile-open {
+            display: block;
+        }
+
 
         /* =========================
            MAIN
@@ -119,15 +208,21 @@
 
         .jb-main {
             margin-left: 250px;
+
             width: calc(100% - 250px);
+
             min-height: 100vh;
         }
 
+
         .edit-content {
             max-width: 900px;
+
             margin: 0 auto;
+
             padding: 35px;
         }
+
 
         /* =========================
            HEADER
@@ -137,18 +232,25 @@
             margin-bottom: 25px;
         }
 
+
         .edit-header h1 {
             margin: 0;
+
             font-size: 32px;
             font-weight: 800;
+
             color: #111827;
         }
 
+
         .edit-header p {
             margin: 7px 0 0;
+
             color: #6b7280;
+
             font-size: 14px;
         }
+
 
         /* =========================
            CARD
@@ -156,23 +258,34 @@
 
         .edit-card {
             background: #ffffff;
+
             border-radius: 18px;
+
             padding: 30px;
+
             border: 1px solid #eef0ef;
+
             box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
         }
 
+
         .edit-card h2 {
             margin: 0 0 8px;
+
             font-size: 21px;
+
             color: #111827;
         }
 
+
         .edit-card-description {
             margin: 0 0 25px;
+
             color: #6b7280;
+
             font-size: 14px;
         }
+
 
         /* =========================
            ALERT
@@ -180,22 +293,32 @@
 
         .error-message {
             background: #fef2f2;
+
             color: #991b1b;
+
             border: 1px solid #fecaca;
+
             padding: 14px 16px;
+
             border-radius: 12px;
+
             margin-bottom: 20px;
         }
 
+
         .error-message strong {
             display: block;
+
             margin-bottom: 7px;
         }
 
+
         .error-message ul {
             margin: 0;
+
             padding-left: 20px;
         }
+
 
         /* =========================
            FORM
@@ -203,44 +326,68 @@
 
         .edit-form {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 20px;
         }
+
 
         .form-group {
             min-width: 0;
         }
 
+
         .form-group.full {
             grid-column: 1 / -1;
         }
 
+
         .form-group label {
             display: block;
+
             margin-bottom: 8px;
+
             color: #374151;
+
             font-size: 14px;
+
             font-weight: 700;
         }
 
+
         .form-control {
             width: 100%;
+
             height: 46px;
+
             padding: 0 13px;
+
             border: 1px solid #d1d5db;
+
             border-radius: 10px;
+
             background: #ffffff;
+
             color: #111827;
+
             font-family: inherit;
+
             font-size: 14px;
+
             outline: none;
+
             transition: 0.2s ease;
         }
 
+
         .form-control:focus {
             border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.10);
+
+            box-shadow:
+                0 0 0 3px rgba(22, 163, 74, 0.10);
         }
+
 
         /* =========================
            DEDUCT OPTIONS
@@ -248,49 +395,74 @@
 
         .deduct-options {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 15px;
         }
+
 
         .deduct-option input {
             display: none;
         }
 
+
         .deduct-option label {
             display: block;
+
             border: 2px solid #e5e7eb;
+
             border-radius: 13px;
+
             padding: 16px;
+
             cursor: pointer;
+
             transition: 0.2s ease;
+
             margin: 0;
         }
 
+
         .deduct-option label:hover {
             border-color: #86efac;
+
             background: #fafffb;
         }
 
+
         .deduct-option input:checked + label {
             border-color: #16a34a;
+
             background: #f0fdf4;
         }
 
+
         .deduct-title {
             display: block;
+
             font-size: 14px;
+
             font-weight: 800;
+
             color: #111827;
+
             margin-bottom: 5px;
         }
 
+
         .deduct-description {
             display: block;
+
             font-size: 12px;
+
             line-height: 1.5;
+
             color: #6b7280;
+
             font-weight: 500;
         }
+
 
         /* =========================
            BUTTONS
@@ -298,46 +470,74 @@
 
         .button-row {
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
             margin-top: 5px;
         }
 
+
         .btn-save {
             border: none;
+
             background: #16a34a;
+
             color: #ffffff;
+
             padding: 13px 22px;
+
             border-radius: 10px;
+
             font-family: inherit;
+
             font-size: 14px;
+
             font-weight: 800;
+
             cursor: pointer;
+
             transition: 0.2s ease;
         }
+
 
         .btn-save:hover {
             background: #15803d;
+
             transform: translateY(-1px);
         }
 
+
         .btn-cancel {
             display: inline-flex;
+
             align-items: center;
+
             justify-content: center;
+
             background: #f3f4f6;
+
             color: #374151;
+
             border: 1px solid #d1d5db;
+
             padding: 12px 20px;
+
             border-radius: 10px;
+
             font-size: 14px;
+
             font-weight: 800;
+
             transition: 0.2s ease;
         }
+
 
         .btn-cancel:hover {
             background: #e5e7eb;
         }
+
 
         /* =========================
            DELETE
@@ -345,39 +545,57 @@
 
         .delete-section {
             margin-top: 25px;
+
             padding-top: 25px;
+
             border-top: 1px solid #e5e7eb;
         }
 
+
         .delete-section h3 {
             margin: 0 0 6px;
+
             color: #991b1b;
+
             font-size: 16px;
         }
 
+
         .delete-section p {
             margin: 0 0 15px;
+
             color: #6b7280;
+
             font-size: 13px;
         }
 
+
         .btn-delete {
             border: 1px solid #fecaca;
+
             background: #fef2f2;
+
             color: #dc2626;
+
             padding: 10px 15px;
+
             border-radius: 9px;
+
             font-size: 13px;
+
             font-weight: 800;
+
             cursor: pointer;
         }
+
 
         .btn-delete:hover {
             background: #fee2e2;
         }
 
+
         /* =========================
-           RESPONSIVE
+           RESPONSIVE FORM
         ========================= */
 
         @media (max-width: 800px) {
@@ -393,71 +611,211 @@
             .deduct-options {
                 grid-template-columns: 1fr;
             }
+
         }
 
-        @media (max-width: 750px) {
+
+        /* =========================
+           MOBILE SIDEBAR
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .jb-mobile-menu {
+                display: flex;
+            }
+
 
             .jb-sidebar {
-                width: 70px;
-                padding: 15px 8px;
+                position: fixed;
+
+                top: 0;
+                left: -270px;
+
+                width: 250px;
+
+                height: 100vh;
+
+                min-height: 100vh;
+
+                padding: 24px 16px;
+
+                z-index: 2000;
+
+                overflow-y: auto;
+
+                transition: left 0.25s ease;
             }
 
-            .jb-logo {
-                justify-content: center;
-                padding: 5px 0 20px;
+
+            .jb-sidebar.mobile-open {
+                left: 0;
             }
 
-            .jb-logo > div:last-child {
-                display: none;
+
+            .jb-sidebar-overlay.mobile-open {
+                display: block;
             }
 
-            .jb-logo-icon {
-                width: 45px;
-                height: 45px;
-            }
-
-            .jb-nav a {
-                justify-content: center;
-                padding: 12px 5px;
-            }
-
-            .jb-nav a span:last-child {
-                display: none;
-            }
 
             .jb-main {
-                margin-left: 70px;
-                width: calc(100% - 70px);
+                margin-left: 0 !important;
+
+                width: 100% !important;
+
+                min-height: 100vh;
             }
 
-            .edit-content {
-                padding: 20px 15px;
+
+            .jb-logo {
+                justify-content: flex-start;
+
+                padding: 5px 10px 28px;
             }
+
+
+            .jb-logo > div:last-child {
+                display: block;
+            }
+
+
+            .jb-nav a {
+                justify-content: flex-start;
+
+                padding: 12px 14px;
+            }
+
+
+            .jb-nav a span:last-child {
+                display: inline;
+            }
+
+
+            .edit-content {
+                padding: 80px 25px 30px;
+            }
+
+        }
+
+
+        /* =========================
+           SMALL MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .jb-mobile-menu {
+                width: 43px;
+
+                height: 43px;
+
+                top: 12px;
+
+                left: 12px;
+
+                font-size: 22px;
+            }
+
+
+            .jb-sidebar {
+                width: 250px;
+
+                left: -270px;
+            }
+
+
+            .jb-sidebar.mobile-open {
+                left: 0;
+            }
+
+
+            .edit-content {
+                padding: 70px 15px 25px;
+            }
+
 
             .edit-card {
                 padding: 20px;
             }
 
+
             .edit-header h1 {
                 font-size: 26px;
             }
 
+
             .button-row {
                 flex-direction: column;
+
                 align-items: stretch;
             }
+
 
             .btn-save,
             .btn-cancel {
                 width: 100%;
             }
+
         }
+
+
+        /* =========================
+           VERY SMALL MOBILE
+        ========================= */
+
+        @media (max-width: 400px) {
+
+            .jb-mobile-menu {
+                width: 40px;
+
+                height: 40px;
+
+                top: 10px;
+
+                left: 10px;
+            }
+
+
+            .edit-card {
+                padding: 16px;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================
+     MOBILE HAMBURGER
+========================= -->
+
+<button
+    type="button"
+    id="mobileMenuToggle"
+    class="jb-mobile-menu"
+    aria-label="Open navigation menu"
+>
+    ☰
+</button>
+
+
+<!-- =========================
+     SIDEBAR OVERLAY
+========================= -->
+
+<div
+    id="mobileSidebarOverlay"
+    class="jb-sidebar-overlay"
+></div>
+
+
 <div class="jb-layout">
+
 
     <!-- =========================
          SIDEBAR
@@ -465,13 +823,16 @@
 
     <aside class="jb-sidebar">
 
+
         <div class="jb-logo">
 
             <div class="jb-logo-icon">
                 🐿️
             </div>
 
+
             <div>
+
                 <div class="jb-logo-title">
                     JoBudget
                 </div>
@@ -479,12 +840,14 @@
                 <div class="jb-logo-subtitle">
                     Smart Money Tracker
                 </div>
+
             </div>
 
         </div>
 
 
         <nav class="jb-nav">
+
 
             <a href="{{ route('dashboard') }}">
 
@@ -512,7 +875,10 @@
             </a>
 
 
-            <a href="{{ route('expense.index') }}" class="active">
+            <a
+                href="{{ route('expense.index') }}"
+                class="active"
+            >
 
                 <span class="jb-nav-icon">
                     💸
@@ -525,7 +891,7 @@
             </a>
 
 
-            <a href="#">
+            <a href="{{ route('saving.index') }}">
 
                 <span class="jb-nav-icon">
                     🐷
@@ -538,7 +904,7 @@
             </a>
 
 
-            <a href="#">
+            <a href="{{ route('goal.index') }}">
 
                 <span class="jb-nav-icon">
                     🎯
@@ -576,7 +942,9 @@
 
             </a>
 
+
         </nav>
+
 
     </aside>
 
@@ -587,7 +955,9 @@
 
     <main class="jb-main">
 
+
         <div class="edit-content">
+
 
             <!-- HEADER -->
 
@@ -635,9 +1005,11 @@
 
             <div class="edit-card">
 
+
                 <h2>
                     Expense Information
                 </h2>
+
 
                 <p class="edit-card-description">
                     Change the information below and save your changes.
@@ -658,6 +1030,7 @@
 
                     <div class="edit-form">
 
+
                         <!-- EXPENSE NAME -->
 
                         <div class="form-group">
@@ -665,6 +1038,7 @@
                             <label for="description">
                                 Expense Name
                             </label>
+
 
                             <input
                                 type="text"
@@ -686,6 +1060,7 @@
                             <label for="amount">
                                 Amount
                             </label>
+
 
                             <input
                                 type="number"
@@ -709,6 +1084,7 @@
                                 Category
                             </label>
 
+
                             <select
                                 id="expense_category_id"
                                 name="expense_category_id"
@@ -719,6 +1095,7 @@
                                 <option value="">
                                     Select Category
                                 </option>
+
 
                                 @foreach($categories as $category)
 
@@ -744,6 +1121,7 @@
                                 Expense Date
                             </label>
 
+
                             <input
                                 type="date"
                                 id="expense_date"
@@ -767,6 +1145,7 @@
 
                             <div class="deduct-options">
 
+
                                 <!-- INCOME -->
 
                                 <div class="deduct-option">
@@ -778,6 +1157,7 @@
                                         value="income"
                                         {{ old('deduct_from', $expense->deduct_from) === 'income' ? 'checked' : '' }}
                                     >
+
 
                                     <label for="income">
 
@@ -806,6 +1186,7 @@
                                         {{ old('deduct_from', $expense->deduct_from) === 'savings' ? 'checked' : '' }}
                                     >
 
+
                                     <label for="savings">
 
                                         <span class="deduct-title">
@@ -820,6 +1201,7 @@
 
                                 </div>
 
+
                             </div>
 
                         </div>
@@ -830,6 +1212,7 @@
                         <div class="form-group full">
 
                             <div class="button-row">
+
 
                                 <button
                                     type="submit"
@@ -846,9 +1229,11 @@
                                     Cancel
                                 </a>
 
+
                             </div>
 
                         </div>
+
 
                     </div>
 
@@ -861,9 +1246,11 @@
 
                 <div class="delete-section">
 
+
                     <h3>
                         Delete Expense
                     </h3>
+
 
                     <p>
                         Permanently remove this expense from your expense history.
@@ -880,6 +1267,7 @@
 
                         @method('DELETE')
 
+
                         <button
                             type="submit"
                             class="btn-delete"
@@ -887,18 +1275,174 @@
                             🗑️ Delete Expense
                         </button>
 
+
                     </form>
+
 
                 </div>
 
+
             </div>
+
 
         </div>
 
+
     </main>
+
 
 </div>
 
+
+<!-- =========================
+     HAMBURGER JAVASCRIPT
+========================= -->
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+
+    const menuButton =
+        document.getElementById('mobileMenuToggle');
+
+
+    const sidebar =
+        document.querySelector('.jb-sidebar');
+
+
+    const overlay =
+        document.getElementById('mobileSidebarOverlay');
+
+
+    if (!menuButton || !sidebar || !overlay) {
+        return;
+    }
+
+
+    /* =========================
+       OPEN SIDEBAR
+    ========================= */
+
+    function openSidebar() {
+
+        sidebar.classList.add('mobile-open');
+
+        overlay.classList.add('mobile-open');
+
+        menuButton.textContent = '✕';
+
+        menuButton.setAttribute(
+            'aria-label',
+            'Close navigation menu'
+        );
+
+    }
+
+
+    /* =========================
+       CLOSE SIDEBAR
+    ========================= */
+
+    function closeSidebar() {
+
+        sidebar.classList.remove('mobile-open');
+
+        overlay.classList.remove('mobile-open');
+
+        menuButton.textContent = '☰';
+
+        menuButton.setAttribute(
+            'aria-label',
+            'Open navigation menu'
+        );
+
+    }
+
+
+    /* =========================
+       HAMBURGER CLICK
+    ========================= */
+
+    menuButton.addEventListener(
+        'click',
+        function () {
+
+            if (
+                sidebar.classList.contains(
+                    'mobile-open'
+                )
+            ) {
+
+                closeSidebar();
+
+            } else {
+
+                openSidebar();
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       OVERLAY CLICK
+    ========================= */
+
+    overlay.addEventListener(
+        'click',
+        function () {
+
+            closeSidebar();
+
+        }
+    );
+
+
+    /* =========================
+       CLOSE AFTER NAVIGATION
+    ========================= */
+
+    sidebar
+        .querySelectorAll('.jb-nav a')
+        .forEach(function (link) {
+
+            link.addEventListener(
+                'click',
+                function () {
+
+                    closeSidebar();
+
+                }
+            );
+
+        });
+
+
+    /* =========================
+       ESCAPE KEY
+    ========================= */
+
+    document.addEventListener(
+        'keydown',
+        function (event) {
+
+            if (event.key === 'Escape') {
+
+                closeSidebar();
+
+            }
+
+        }
+    );
+
+
+});
+
+</script>
+
+
 </body>
+
 </html>
-```
