@@ -11,19 +11,27 @@ COPY . .
 RUN npm run build
 
 
-FROM php:8.2-fpm
+FROM php:8.2-fpm-bookworm
 
 WORKDIR /var/www
 
-RUN apt-get update && apt-get install -y \
-    nginx \
-    git \
-    unzip \
-    libpq-dev \
-    libzip-dev \
-    zip \
-    curl \
-    && docker-php-ext-install pdo_pgsql pgsql mbstring bcmath exif pcntl
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        nginx \
+        git \
+        unzip \
+        libpq-dev \
+        libzip-dev \
+        zip \
+        curl \
+    && docker-php-ext-install \
+        pdo_pgsql \
+        pgsql \
+        mbstring \
+        bcmath \
+        exif \
+        pcntl \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
