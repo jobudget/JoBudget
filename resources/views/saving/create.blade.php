@@ -317,30 +317,30 @@
 
                 @csrf
 
-                <!-- DESCRIPTION -->
-                <div class="form-group">
+                <!-- SAVING NAME -->
+<div class="form-group">
 
-                    <label for="description" class="form-label">
-                        Savings Description
-                    </label>
+    <label for="name" class="form-label">
+        Savings Name
+    </label>
 
-                    <input
-                        type="text"
-                        id="description"
-                        name="name"
-                        class="form-input"
-                        placeholder="e.g. Emergency Fund"
-                        value="{{ old('description') }}"
-                        required
-                    >
+    <input
+        type="text"
+        id="name"
+        name="name"
+        class="form-input"
+        placeholder="e.g. Emergency Fund"
+        value="{{ old('name') }}"
+        required
+    >
 
-                    @error('description')
-                        <div class="error-message">
-                            {{ $message }}
-                        </div>
-                    @enderror
+    @error('name')
+        <div class="error-message">
+            {{ $message }}
+        </div>
+    @enderror
 
-                </div>
+</div>
 
 
                 <!-- AMOUNT -->

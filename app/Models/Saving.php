@@ -11,8 +11,8 @@ class Saving extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'amount',
-        'description',
         'saving_date',
     ];
 
