@@ -8,17 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->string('deduct_from');
-                ->default('income')
-                ->after('amount');
-        });
+        if (!Schema::hasColumn('expenses', 'deduct_from')) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->string('deduct_from')->default('income');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->dropColumn('deduct_from');
-        });
+        if (Schema::hasColumn('expenses', 'deduct_from')) {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->dropColumn('deduct_from');
+            });
+        }
     }
 };
