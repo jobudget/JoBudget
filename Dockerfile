@@ -1,3 +1,16 @@
+FROM node:20-alpine AS frontend
+
+WORKDIR /var/www
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+
 FROM php:8.2-fpm
 
 WORKDIR /var/www
@@ -15,6 +28,8 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY . /var/www
+
+COPY --from=frontend /var/www/public/build /var/www/public/build
 
 RUN composer install --no-dev --optimize-autoloader
 
