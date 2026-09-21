@@ -135,25 +135,24 @@ class DashboardController extends Controller
         return $items->sum('amount');
     });
 
-        $monthlyExpenseChart = [
-            'labels' => $monthlyExpenses
-                ->map(function ($expense) {
-                    return Carbon::create(
-                        $expense->year,
-                        $expense->month,
-                        1
-                    )->format('M Y');
-                })
-                ->values()
-                ->toArray(),
+$monthlyExpenseChart = [
+    'labels' => $monthlyExpenses
+        ->keys()
+        ->map(function ($month) {
+            return Carbon::createFromFormat('Y-m', $month)
+                ->format('M Y');
+        })
+        ->values()
+        ->toArray(),
 
-            'data' => $monthlyExpenses
-                ->map(function ($expense) {
-                    return (float) $expense->total;
-                })
-                ->values()
-                ->toArray()
-        ];
+    'data' => $monthlyExpenses
+        ->values()
+        ->map(function ($total) {
+            return (float) $total;
+        })
+        ->values()
+        ->toArray()
+];
 
 
         /*
