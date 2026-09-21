@@ -327,7 +327,7 @@
                     <input
                         type="text"
                         id="description"
-                        name="description"
+                        name="name"
                         class="form-input"
                         placeholder="e.g. Emergency Fund"
                         value="{{ old('description') }}"

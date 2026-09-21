@@ -27,7 +27,7 @@
                         </label>
 
                         <input type="text"
-                               name="description"
+                               name="name"
                                id="description"
                                value="{{ old('description', $saving->description) }}"
                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500">

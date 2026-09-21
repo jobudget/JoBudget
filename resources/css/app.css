@@ -1403,3 +1403,88 @@ body.dark-mode input::placeholder,
 body.dark-mode textarea::placeholder {
     color: #7f8982;
 }
+/* ========================================
+   MOBILE SIDEBAR MENU
+======================================== */
+
+.jb-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    background: #7aa35a;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* Dark overlay behind sidebar */
+.jb-sidebar-overlay {
+    display: none;
+}
+
+@media (max-width: 600px) {
+
+    .jb-mobile-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jb-sidebar {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: -260px;
+        width: 245px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.25s ease;
+        overflow-y: auto;
+    }
+
+    .jb-sidebar.mobile-open {
+        left: 0;
+    }
+
+    .jb-sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 999;
+    }
+
+    .jb-sidebar-overlay.mobile-open {
+        display: block;
+    }
+
+    .jb-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 75px 12px 20px;
+    }
+
+    /* Show sidebar text again when opened */
+    .jb-sidebar .jb-logo-text,
+    .jb-sidebar .jb-logo-subtitle,
+    .jb-sidebar .jb-nav span,
+    .jb-sidebar .jb-sidebar-quote {
+        display: block;
+    }
+
+    .jb-sidebar .jb-logo {
+        justify-content: flex-start;
+        padding: 0 20px 25px;
+    }
+
+    .jb-sidebar .jb-nav a {
+        justify-content: flex-start;
+        padding: 14px 20px;
+    }
+}
