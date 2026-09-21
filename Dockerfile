@@ -21,9 +21,10 @@ RUN apt-get update \
         git \
         unzip \
         libpq-dev \
-        libzip-dev \
-        zip \
-        curl \
+libzip-dev \
+libonig-dev \
+zip \
+curl \
     && docker-php-ext-install \
         pdo_pgsql \
         pgsql \
