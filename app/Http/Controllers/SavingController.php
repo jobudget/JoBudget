@@ -30,7 +30,8 @@ class SavingController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
+    try {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0.01',
@@ -47,7 +48,20 @@ class SavingController extends Controller
         return redirect()
             ->route('saving.index')
             ->with('success', 'Savings added successfully!');
+
+    } catch (\Throwable $e) {
+        return response(
+            '<pre>SAVING ERROR: ' .
+            $e->getMessage() .
+            "\n\nFILE: " .
+            $e->getFile() .
+            "\nLINE: " .
+            $e->getLine() .
+            '</pre>',
+            500
+        );
     }
+}
 
     public function show(Saving $saving)
     {
