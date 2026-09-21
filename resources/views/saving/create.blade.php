@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,13 +25,23 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+        /* =========================
+           SIDEBAR
+        ========================= */
+
         .jb-sidebar {
             width: 250px;
             background: #ffffff;
             border-right: 1px solid #e5e7eb;
             padding: 25px 18px;
             flex-shrink: 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 2000;
+            transition: left 0.25s ease;
         }
 
         .jb-logo {
@@ -51,6 +60,7 @@
             align-items: center;
             justify-content: center;
             font-size: 27px;
+            flex-shrink: 0;
         }
 
         .jb-logo-title {
@@ -101,11 +111,47 @@
             font-size: 17px;
         }
 
-        /* MAIN */
+        /* =========================
+           MOBILE MENU
+        ========================= */
+
+        .jb-mobile-menu {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 45px;
+            height: 45px;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 10px;
+            background: #f97316;
+            color: white;
+            font-size: 23px;
+            cursor: pointer;
+            z-index: 3000;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .jb-sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1999;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
         .jb-main {
             flex: 1;
+            margin-left: 250px;
             padding: 40px;
-            max-width: 1100px;
+            width: calc(100% - 250px);
+            min-width: 0;
         }
 
         .page-title {
@@ -121,12 +167,16 @@
             margin-bottom: 30px;
         }
 
-        /* FORM CARD */
+        /* =========================
+           FORM CARD
+        ========================= */
+
         .form-card {
             background: white;
             border: 1px solid #e5e7eb;
             border-radius: 16px;
             padding: 30px;
+            width: 100%;
             max-width: 700px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
@@ -171,7 +221,10 @@
             font-size: 12px;
         }
 
-        /* BUTTONS */
+        /* =========================
+           BUTTONS
+        ========================= */
+
         .form-actions {
             display: flex;
             gap: 10px;
@@ -209,39 +262,139 @@
             background: #e5e7eb;
         }
 
-        /* MOBILE */
-        @media (max-width: 768px) {
-            .jb-layout {
-                flex-direction: column;
-            }
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 900px) {
 
             .jb-sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #e5e7eb;
+                left: -270px;
             }
 
-            .jb-nav {
-                flex-direction: row;
-                overflow-x: auto;
+            .jb-sidebar.mobile-open {
+                left: 0;
             }
 
-            .jb-nav a {
-                white-space: nowrap;
+            .jb-mobile-menu {
+                display: flex;
+            }
+
+            .jb-sidebar-overlay.mobile-open {
+                display: block;
             }
 
             .jb-main {
-                padding: 25px 18px;
+                margin-left: 0;
+                width: 100%;
+                padding: 80px 25px 30px;
+            }
+
+            .page-title {
+                font-size: 25px;
             }
 
             .form-card {
-                padding: 22px;
+                max-width: 100%;
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .jb-main {
+                padding: 75px 15px 25px;
+            }
+
+            .page-title {
+                font-size: 23px;
+                line-height: 1.3;
+            }
+
+            .page-subtitle {
+                font-size: 13px;
+                line-height: 1.5;
+                margin-bottom: 22px;
+            }
+
+            .form-card {
+                padding: 20px 16px;
+                border-radius: 13px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-label {
+                font-size: 13px;
+            }
+
+            .form-input {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 13px;
+            }
+        }
+
+        /* =========================
+           SMALL PHONES
+        ========================= */
+
+        @media (max-width: 400px) {
+
+            .jb-main {
+                padding: 70px 10px 20px;
+            }
+
+            .jb-mobile-menu {
+                width: 42px;
+                height: 42px;
+                top: 12px;
+                left: 12px;
+            }
+
+            .form-card {
+                padding: 17px 13px;
+            }
+
+            .page-title {
+                font-size: 21px;
+            }
+
+            .page-subtitle {
+                font-size: 12px;
             }
         }
     </style>
 </head>
 
 <body>
+
+<!-- MOBILE HAMBURGER -->
+<button
+    type="button"
+    id="mobileMenuToggle"
+    class="jb-mobile-menu"
+    aria-label="Open navigation menu"
+>
+    ☰
+</button>
+
+<!-- MOBILE OVERLAY -->
+<div id="mobileSidebarOverlay" class="jb-sidebar-overlay"></div>
 
 <div class="jb-layout">
 
@@ -253,7 +406,9 @@
 
             <div>
                 <div class="jb-logo-title">JoBudget</div>
-                <div class="jb-logo-subtitle">Smart Money Tracker</div>
+                <div class="jb-logo-subtitle">
+                    Smart Money Tracker
+                </div>
             </div>
         </div>
 
@@ -279,25 +434,14 @@
                 <span>Savings</span>
             </a>
 
-            <a href="#">
+            <a href="{{ route('goal.index') }}">
                 <span class="jb-nav-icon">🎯</span>
                 <span>Goals</span>
-            </a>
-
-            <a href="#">
-                <span class="jb-nav-icon">📊</span>
-                <span>Budgets</span>
-            </a>
-
-            <a href="#">
-                <span class="jb-nav-icon">📈</span>
-                <span>Reports</span>
             </a>
 
         </nav>
 
     </aside>
-
 
     <!-- MAIN CONTENT -->
     <main class="jb-main">
@@ -310,7 +454,6 @@
             Record money that you want to set aside for your future.
         </div>
 
-
         <div class="form-card">
 
             <form method="POST" action="{{ route('saving.store') }}">
@@ -318,30 +461,29 @@
                 @csrf
 
                 <!-- SAVING NAME -->
-<div class="form-group">
+                <div class="form-group">
 
-    <label for="name" class="form-label">
-        Savings Name
-    </label>
+                    <label for="name" class="form-label">
+                        Savings Name
+                    </label>
 
-    <input
-        type="text"
-        id="name"
-        name="name"
-        class="form-input"
-        placeholder="e.g. Emergency Fund"
-        value="{{ old('name') }}"
-        required
-    >
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="e.g. Emergency Fund"
+                        value="{{ old('name') }}"
+                        required
+                    >
 
-    @error('name')
-        <div class="error-message">
-            {{ $message }}
-        </div>
-    @enderror
+                    @error('name')
+                        <div class="error-message">
+                            {{ $message }}
+                        </div>
+                    @enderror
 
-</div>
-
+                </div>
 
                 <!-- AMOUNT -->
                 <div class="form-group">
@@ -374,7 +516,6 @@
 
                 </div>
 
-
                 <!-- SAVING DATE -->
                 <div class="form-group">
 
@@ -403,7 +544,6 @@
 
                 </div>
 
-
                 <!-- BUTTONS -->
                 <div class="form-actions">
 
@@ -411,7 +551,10 @@
                         💾 Save Savings
                     </button>
 
-                    <a href="{{ route('saving.index') }}" class="btn btn-cancel">
+                    <a
+                        href="{{ route('saving.index') }}"
+                        class="btn btn-cancel"
+                    >
                         Cancel
                     </a>
 
@@ -425,6 +568,61 @@
 
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const menuButton = document.getElementById('mobileMenuToggle');
+    const sidebar = document.querySelector('.jb-sidebar');
+    const overlay = document.getElementById('mobileSidebarOverlay');
+
+    if (!menuButton || !sidebar || !overlay) {
+        return;
+    }
+
+    function openSidebar() {
+        sidebar.classList.add('mobile-open');
+        overlay.classList.add('mobile-open');
+
+        menuButton.textContent = '✕';
+        menuButton.setAttribute(
+            'aria-label',
+            'Close navigation menu'
+        );
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('mobile-open');
+
+        menuButton.textContent = '☰';
+        menuButton.setAttribute(
+            'aria-label',
+            'Open navigation menu'
+        );
+    }
+
+    menuButton.addEventListener('click', function () {
+
+        if (sidebar.classList.contains('mobile-open')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+
+    });
+
+    overlay.addEventListener('click', closeSidebar);
+
+    sidebar.querySelectorAll('.jb-nav a').forEach(function (link) {
+
+        link.addEventListener('click', function () {
+            closeSidebar();
+        });
+
+    });
+
+});
+</script>
+
 </body>
 </html>
-```
