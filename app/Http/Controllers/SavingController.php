@@ -29,14 +29,15 @@ class SavingController extends Controller
         return view('saving.create');
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'description' => 'required|string|max:255',
-            'amount' => 'required|numeric|min:0.01',
-            'saving_date' => 'required|date',
-        ]);
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'description' => 'required|string|max:255',
+        'amount' => 'required|numeric|min:0.01',
+        'saving_date' => 'required|date',
+    ]);
 
+    try {
         Saving::create([
             'user_id' => auth()->id(),
             'description' => $validated['description'],
@@ -47,7 +48,14 @@ class SavingController extends Controller
         return redirect()
             ->route('saving.index')
             ->with('success', 'Savings added successfully!');
+            
+    } catch (\Throwable $e) {
+        return response(
+            'SAVING ERROR: ' . $e->getMessage(),
+            500
+        );
     }
+}
 
     public function show(Saving $saving)
     {
