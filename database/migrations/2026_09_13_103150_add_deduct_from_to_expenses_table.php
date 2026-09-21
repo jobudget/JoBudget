@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('expenses', function (Blueprint $table) {
-            $table->enum('deduct_from', ['income', 'savings'])
+            $table->string('deduct_from');
                 ->default('income')
                 ->after('amount');
         });
