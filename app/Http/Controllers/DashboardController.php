@@ -126,12 +126,14 @@ class DashboardController extends Controller
         */
 
         $monthlyExpenses = Expense::where('user_id', $userId)
-            ->selectRaw('YEAR(expense_date) as year')
-            ->selectRaw('MONTH(expense_date) as month')
-            ->selectRaw('SUM(amount) as total')
-            ->groupByRaw('YEAR(expense_date), MONTH(expense_date)')
-            ->orderByRaw('YEAR(expense_date), MONTH(expense_date)')
-            ->get();
+    ->orderBy('expense_date')
+    ->get(['expense_date', 'amount'])
+    ->groupBy(function ($expense) {
+        return Carbon::parse($expense->expense_date)->format('Y-m');
+    })
+    ->map(function ($items) {
+        return $items->sum('amount');
+    });
 
         $monthlyExpenseChart = [
             'labels' => $monthlyExpenses
